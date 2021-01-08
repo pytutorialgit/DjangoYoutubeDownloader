@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Youtube Downloader</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+
+
+<style>
+	@import url('https://fonts.googleapis.com/css?family=Merriweather:300|Oswald');
+
+
+h1{
+	
+	margin-top: 50px;
+	margin-bottom: 100px;
+}
+
+
+/* Form fields */ 
+#booking-form {
+     font-family: 'Merriweather', serif;
+    max-width: 540px;
+  margin: 40px auto;
+}
+#booking-form ul {
+  padding-left: 0;
+}
+#booking-form li {
+  list-style: none;
+}
+#booking-form input, 
+#booking-form textarea,  
+#booking-form select {
+    font-size: 18px;
+    padding: 0 28px;
+    width: 100%;
+    box-sizing: border-box;
+    border: 1px solid rgb(233,233,233);
+    text-align: left;
+    border-radius: 35px;
+    color: #000000;
+    
+    letter-spacing: normal;
+    height: 50px;
+    line-height: 50px;
+    font-family: 'Merriweather', serif;
+    background: #fff;
+  margin-bottom: 20px;
+}
+#booking-form select {
+    background: url('https://seashineadventures.com/wp-content/uploads/2017/08/grey-chevron.png') no-repeat;
+    -webkit-appearance: none;
+    appearance: none;
+    background-size: 15px;
+    background-position: 97% 50%;
+
+}
+#booking-form textarea {
+    height: 120px;
+    line-height: 1.5;
+    padding: 15px 28px;
+}
+#booking-form input:focus, 
+#booking-form textarea:focus, 
+#booking-form select:focus {
+    outline: 0;
+    border: 1px solid rgb(211,211,211);
+}
+#booking-form label {
+    font-size: 18px;
+    font-weight: 300;
+  display: block;
+    margin-bottom: 10px;
+}
+
+/* Buttons */
+#booking-form .next-btn,
+#booking-form .submit-btn {
+    background: #82CCC8;
+    padding: 13px 20px;
+    color: #fff;
+    font-family: oswald, sans-serif;
+    text-transform: uppercase;
+    font-size: 18px;
+    line-height: 24px;
+    letter-spacing: 1px;
+    min-width: 400px;
+    display: inline-block;
+    text-align: center;
+    font-weight: 400;
+    border-radius: 0;
+    border: 0;
+    transition-property: background-color;
+    transition-duration: 0.5s;
+    width: 100%;
+    cursor: pointer;
+}
+
+#booking-form .next-btn:hover,
+#booking-form .submit-btn:hover {
+    background-color: #444b5d;
+    color: #fff;
+}
+
+/* Progress Bar */
+.progress-wrap {
+    margin: auto;
+    display: table;
+}
+.line-progress-bar {
+    display: flex;
+    margin: auto;
+    width: 100%;
+}
+.line {
+    height: 1px;
+    width: 250px;
+    border-bottom-style: solid;
+    border-bottom-width: 1px;
+    border-bottom-color: rgb(217, 217, 217);
+    position: absolute;
+    margin-top: 8px;
+}
+.progress-wrap div ul {
+    display: flex;
+    width: 250px;
+    list-style: none;
+    padding: 0px;
+    margin: initial;
+    justify-content: space-between;
+    z-index: 1;
+}
+.progressbar-dots {
+    display: inline-flex;
+    border: #949494 solid 4px;
+    background: #333333;
+    height: 20px;
+    width: 20px;
+    border-radius: 50%;
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+    font-weight: bold;
+    color: #d4d4d4;
+    font-size: 20px;
+    margin-left: 0px;
+    color: #d4d4d4;
+    border: 0px solid rgb(217,217,217);
+    background: rgb(217, 217, 217);
+}
+.progressbar-dots span {
+    font-size: 12px;
+    line-height: 12px;
+    position: absolute;
+    margin-top: 60px;
+    /* width: 75px; */
+    float: left;
+    margin-left: -30px;
+    display: none;
+}
+.progressbar-dots.active {
+    color: #fff;
+    border: 0px solid rgb(38,163,134);
+    background: #82CCC8;
+}
+
+/*  Tab */
+.tab-pane {
+    display: none;
+}
+.tab-pane:first-child {
+  display: block;
+}
+
+/* Error */
+span.error {
+  font-size: 12px;
+  font-family: "helvetica neue", arial, sans-serif;
+  color: #D6041D;
+  text-transform: uppercase;
+  display: block;
+  margin-bottom: 10px;
+}
+
+
+
+/* loading */
+.lds-ellipsis {
+  display: inline-block;
+  position: relative;
+  width: 80px;
+  height: 80px;
+}
+.lds-ellipsis div {
+  position: absolute;
+  top: 33px;
+  width: 13px;
+  height: 13px;
+  border-radius: 50%;
+  background: #8d318a;
+  animation-timing-function: cubic-bezier(0, 1, 1, 0);
+}
+.lds-ellipsis div:nth-child(1) {
+  left: 8px;
+  animation: lds-ellipsis1 0.6s infinite;
+}
+.lds-ellipsis div:nth-child(2) {
+  left: 8px;
+  animation: lds-ellipsis2 0.6s infinite;
+}
+.lds-ellipsis div:nth-child(3) {
+  left: 32px;
+  animation: lds-ellipsis2 0.6s infinite;
+}
+.lds-ellipsis div:nth-child(4) {
+  left: 56px;
+  animation: lds-ellipsis3 0.6s infinite;
+}
+@keyframes lds-ellipsis1 {
+  0% {
+    transform: scale(0);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+@keyframes lds-ellipsis3 {
+  0% {
+    transform: scale(1);
+  }
+  100% {
+    transform: scale(0);
+  }
+}
+@keyframes lds-ellipsis2 {
+  0% {
+    transform: translate(0, 0);
+  }
+  100% {
+    transform: translate(24px, 0);
+  }
+}
+
+
+</style>	
+</head>
+<body>
+
+<div class="container">
+<div id="app" class="text-center mb-5">
+
+<h1>Youtube Downloader</h1>
+
+<form method="POST" id="booking-form">
+		
+		<div class="tab-content">
+			<div class="tab-pane" id="step1">
+				<ul>
+          <input v-model="url" type="text" placeholder="video URL" required>
+			
+           
+				 <li style="list-style: none; display: inline">
+						<button class="next-btn next-btn1" type="button" v-on:click="getInfo()">Download Video</button>
+					</li>
+				</ul>
+			</div>
+         </div>   
+		
+		
+	</form>
+
+
+
+
+
+<div v-if="loading == true" style="">
+    <div class="lds-ellipsis"><div></div><div></div><div></div><div></div></div>
+</div>
+
+
+<div class="video-info" v-if="video_info">
+    <p>Title: <strong>[[video_info.title]]</strong></p>
+    <div class="img">
+    <img class="img-fluid" v-bind:src="video_info.img" v-bind:alt="video_info.title" width="500" height="500">
+    </div>
+    <p class="mt-5">Choose quality:</p>
+    <button type="button" class="btn btn-info ml-4" v-for="q in video_info.qualities" v-on:click="Download(q)">[[q]]</button>
+
+
+
+    
+</div>
+
+
+
+<div v-if="loading2 == true" style="">
+    <div class="lds-ellipsis"><div></div><div></div><div></div><div></div></div>
+</div>
+
+<div v-if="down_link" style=" margin-top: 80px">
+
+<h2>Downloading Link:</h2>
+
+<a style="background: #8d318a; width: 100px; padding:10px 60px; color: #fff" class="next-btn next-btn1" v-bind:href="down_link" download>Click Here</a>
+</div>
+
+
+
+
+</div>
+
+</div>
+
+
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/vue@2.6.12/dist/vue.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.min.js" integrity="sha512-bZS47S7sPOxkjU/4Bt0zrhEtWx0y0CRkhEp8IckzK+ltifIIE9EMIMTuT/mEzoIMewUINruDBIR/jJnbguonqQ==" crossorigin="anonymous"></script>
+
+
+
+<script>
+
+const vms = new Vue({
+    delimiters: ['[[', ']]'],
+    el: '#app',
+
+    data: {
+        loading: false,
+        loading2: false,
+        url: null,
+        video_info: null,
+        down_link: null,
+    },
+
+    methods: {
+
+        getInfo: function(){
+            this.down_link = null;
+            this.loading = true;
+
+            axios({
+                    method : 'POST',
+                    url:'{% url "get_info" %}', 
+                    headers: {'X-CSRFTOKEN': '{{ csrf_token }}',},
+                    data:{"url":this.url}
+                    },
+
+                    ).then(response => {
+                        this.video_info = response.data;
+                        this.loading = false;
+                        
+                       
+                    }).catch(err => {
+                        this.loading = false;
+                       
+                });
+
+
+
+
+        },
+
+        Download: function(q){
+            this.down_link = null;
+            this.loading2 = true;
+
+            axios({
+                    method : 'POST',
+                    url:'{% url "download2" %}', 
+                    headers: {'X-CSRFTOKEN': '{{ csrf_token }}',},
+                    data:{"url":this.url, "q":q}
+                    },
+
+                    ).then(response => {
+                        this.loading2 = false;
+                        this.down_link = response.data['down_link']
+
+                       
+                    }).catch(err => {
+                       
+                    });
+
+        },
+
+    },
+
+
+});  
+
+
+</script>
+
+</body>
+</html>
